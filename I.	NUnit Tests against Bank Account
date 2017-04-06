@@ -1,0 +1,87 @@
+//1.	Bank Account 
+//•	Write a test that check that exception is thrown when you instantiate BankAccount with negative money
+//•	Write a test that check Withdraw() method get right amount of money for bank transfer
+//o	If withdraw amount is less than 1000 transfer fee is 5% of withdrawn amount
+//o	If withdraw amount is greater than 1000 transfer fee is 2% of withdrawn amount
+
+using System;
+using NUnit.Framework;
+using SeleniumBasicDemo;
+
+namespace _01_Homework_Selenium_WebDriver_Basics
+{
+	[TestFixture]
+	class TestBankAccounts
+	{
+		//Check if bank account has negative value
+		[Test]
+		public void TestNegativeValue()
+		{
+			Assert.Throws<ArgumentException>(() => new SeleniumBasicDemo.BankAccount(-1m));
+		}
+		//Check Withdraw amount
+		[Test]
+		public void WithdrawTestLessThan1000()
+		{
+			var amount = 500;
+			BankAccount account = new BankAccount(amount);
+			var withdrawAmount = 100;
+			var expectedAmountAfterWithraw = amount - (withdrawAmount + withdrawAmount * 0.05m);
+			account.Withdraw(withdrawAmount);
+			Assert.AreEqual(expectedAmountAfterWithraw,account.Amount);
+
+		}
+		[Test]
+		public void WithdrawTestMoreThan1000()
+		{
+			var amount = 1500;
+			BankAccount accountAmount = new BankAccount(amount);
+			var withdraw = 1100;
+			var expectedAmountAfterWithdraw = amount - (withdraw + withdraw* 0.02m);
+			accountAmount.Withdraw(withdraw);
+			Assert.AreEqual(expectedAmountAfterWithdraw, accountAmount.Amount);
+
+		}
+    //2.	Asserts
+//Like you see in presentation, you can assert so much things. There is no "right" way to assert something. It is up to you to choose how to assert. Write five more tests against BankAccount that test its functionality. Use five different type of asserts for these tests.
+
+// five different type of asserts
+		[Test]
+		public void CheckAreNotEqual()
+		{
+			var newAmount = 1500;
+			BankAccount account = new BankAccount(newAmount);
+			Assert.AreNotEqual(2000m,account.Amount);
+		}
+		[Test]
+		public void CheckNotZero()
+		{
+			var newAmount = 200;
+			BankAccount account = new BankAccount(newAmount);
+			Assert.NotZero(account.Amount);
+		}
+
+		[Test]
+		public void CheckGreaterOrEqual()
+		{
+			var newAmount = 200;
+			BankAccount account = new BankAccount(newAmount);
+			Assert.GreaterOrEqual(300m,account.Amount);
+		}
+		[Test]
+		public void CheckGreater()
+		{
+			var newAmount = 300;
+			BankAccount account = new BankAccount(newAmount);
+			Assert.Greater(500, account.Amount);
+		}
+		[Test]
+		public void CheckLessOrEqual()
+		{
+			var newAmount = 300;
+			BankAccount account = new BankAccount(newAmount);
+			Assert.LessOrEqual(300, account.Amount);
+		}
+
+	}
+}
